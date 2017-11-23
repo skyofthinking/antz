@@ -130,6 +130,7 @@
                 this.handleQuery();
             },
             handleQuery: function () {
+                var vm = this; // keep reference to viewmodel object
                 this.listLoading = true;
                 NProgress.start();
                 var params_ = {pageNo: this.currentPage, pageSize: 10};
@@ -139,10 +140,14 @@
                 console.log(params_);
                 axios.get('/user/query', {params: params_})
                         .then(function (response) {
-                            console.log(response.data.data);
+                            console.log(response.data);
                             this.total = response.data.total;
                             this.pageSize = response.data.pageSize;
                             this.dataList = response.data.data;
+                            for (var key in response.data.data) {
+                                this.dataList.push(response.data.data[key]);
+                                // vm.$set(this.dataList, key, response.data.data[key]);
+                            }
                             NProgress.done();
                         }).catch(function (error) {
                             console.log(error);

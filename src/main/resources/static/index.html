@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <!-- Vue -->
     <script src="http://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script>
-    <script src="http://cdn.bootcss.com/vue-resource/1.3.4/vue-resource.min.js"></script>
+    <!-- Axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <!-- ElementUI JS -->
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <script src="https://cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
@@ -25,7 +26,7 @@
                 <el-button type="primary" v-on:click="handleQuery">查询</el-button>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="handleCreate">新增</el-button>
+                <el-button type="primary" @click="handleInsert">新增</el-button>
             </el-form-item>
         </el-form>
     </el-col>
@@ -83,8 +84,6 @@
 
     const baseURL = "http://localhost:9090";
 
-    Vue.http.options.emulateJSON = true;
-    Vue.http.options.emulateHTTP = true;
     var vm = new Vue({
         el: '#vm',
         data: {
@@ -110,7 +109,7 @@
             dialogStatus: '',
             textMap: {
                 query: '查询',
-                create: '创建',
+                insert: '创建',
                 update: '编辑',
                 delete: '删除',
             },
@@ -137,22 +136,22 @@
                 if (this.filters.name && this.filters.name.trim() != "") {
                     params_['name'] = this.filters.name;
                 }
-                this.$http.get(baseURL + "/user/query", {params: params_}).then(function (response) {
-                    console.log(response.data);
-                    this.total = response.data.total;
-                    this.pageSize = response.data.pageSize;
-                    this.dataList = [];
-                    for (var key in response.data.data) {
-                        this.$set(this.dataList, key, response.data.data[key]);
-                    }
-                    NProgress.done();
-                }).catch(function (response) {
-                    console.error(response);
-                });
+                console.log(params_);
+                axios.get('/user/query', {params: params_})
+                        .then(function (response) {
+                            console.log(response.data.data);
+                            this.total = response.data.total;
+                            this.pageSize = response.data.pageSize;
+                            this.dataList = response.data.data;
+                            NProgress.done();
+                        }).catch(function (error) {
+                            console.log(error);
+                        });
+
                 this.listLoading = false;
             },
-            handleCreate: function () {
-                this.dialogStatus = 'create';
+            handleInsert: function () {
+                this.dialogStatus = 'insert';
                 this.saveFormVisible = true;
                 this.saveForm = {
                     uid: '',
@@ -160,7 +159,7 @@
                     sex: ''
                 };
             },
-            create: function () {
+            insert: function () {
                 this.saveFormVisible = false;
             },
             // 显示编辑界面
@@ -180,13 +179,17 @@
                             this.saveLoading = true;
                             NProgress.start();
                             var params_ = Object.assign({}, this.saveForm);
-                            var url = params_.uid != '' ? "/user/update" : "/user/create";
-                            this.$http.post(baseURL + url, {params: params_}).then(function (response) {
-                                console.log("===============");
-                                NProgress.done();
-                            }).catch(function (response) {
-                                console.error(response);
-                            });
+                            var url = params_.uid != '' ? "/user/update" : "/user/insert";
+                            console.log(params_);
+                            axios.post(baseURL + url, {params: params_})
+                                    .then(function (response) {
+                                        console.log("===============");
+                                        this.saveLoading = false;
+                                        this.saveFormVisible = false;
+                                        NProgress.done();
+                                    }).catch(function (error) {
+                                        console.log(error);
+                                    });
                         });
                     }
                 });

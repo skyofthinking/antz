@@ -1,8 +1,10 @@
 package com.zhuoyue.core.service;
 
-import com.zhuoyue.core.base.DataResponse;
+import com.zhuoyue.core.base.CrudService;
+import com.zhuoyue.core.dao.UserDao;
 import com.zhuoyue.core.entity.User;
+import org.springframework.stereotype.Service;
 
-public interface UserService {
-    public DataResponse query(User entity);
+@Service
+public class UserService extends CrudService<UserDao, User> {
 }

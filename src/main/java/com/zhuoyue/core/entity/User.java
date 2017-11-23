@@ -1,13 +1,12 @@
 package com.zhuoyue.core.entity;
 
-import com.zhuoyue.core.base.BaseEntity;
+import com.zhuoyue.core.base.DataEntity;
 
 import java.util.Date;
 
-public class User extends BaseEntity {
+public class User extends DataEntity<User> {
     private String name;
     private String sex;
-    private Date createDate;
 
     public String getName() {
         return name;
@@ -23,13 +22,5 @@ public class User extends BaseEntity {
 
     public void setSex(String sex) {
         this.sex = sex;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
     }
 }

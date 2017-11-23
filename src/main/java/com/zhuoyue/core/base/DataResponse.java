@@ -1,7 +1,5 @@
 package com.zhuoyue.core.base;
 
-import org.springframework.beans.factory.annotation.Value;
-
 public class DataResponse<T> {
     public static final String SUCCESS = "0"; // 0代表成功
     public static final String SUCCESS_MSG = "处理成功"; // 0代表成功
@@ -13,6 +11,12 @@ public class DataResponse<T> {
     public T data;
     public Integer total;
     public Integer pageSize;
+
+    public DataResponse success() {
+        this.code = SUCCESS;
+        this.message = SUCCESS_MSG;
+        return this;
+    }
 
     public DataResponse success(T data) {
         this.code = SUCCESS;

@@ -6,9 +6,32 @@
         select * from sys_user
         <where>
             <if test="name != null and name != ''">
-                AND name LIKE concat('%',#{name},'%')
+                and name LIKE concat('%',#{name},'%')
             </if>
         </where>
     </select>
+
+    <insert id="insert">
+        insert into sys_user (
+        uid,
+        name,
+        sex,
+        create_date
+        ) values (
+        #{uid},
+        #{name},
+        #{sex},
+        #{createDate}
+        )
+    </insert>
+
+    <update id="update">
+        update sys_user set
+        <if test="name != null and name != ''">name = #{name},</if>
+        <if test="sex != null and sex != ''">sex = #{sex},</if>
+        <if test="createDate != null and createDate != ''">create_date = #{createDate},</if>
+        uid = #{uid}
+        where uid = #{uid}
+    </update>
 
 </mapper>

@@ -23,10 +23,11 @@ public class UserServiceImpl implements UserService {
         PageHelper.startPage(entity.getPageNo(), entity.getPageSize());
         List<User> users = dao.query(entity);
         PageInfo page = new PageInfo(users);
-        int count = (int) page.getTotal();
+        int total = (int) page.getTotal();
         DataResponse<List<User>> data = new DataResponse();
-        data.setData(users);
-        data.setCount("" + count);
+        data.success(users);
+        data.setTotal(total);
+        data.setPageSize(page.getPageSize());
         return data;
     }
 }

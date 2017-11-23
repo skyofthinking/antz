@@ -1,8 +1,14 @@
 package com.zhuoyue.core.base;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.beans.factory.annotation.Value;
+
 public class BaseEntity {
 
+    @JsonIgnore
     private Integer pageNo;
+    @JsonIgnore
+    @Value("${page.pageSize}")
     private Integer pageSize;
 
     private String uid;

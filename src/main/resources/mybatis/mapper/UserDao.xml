@@ -16,12 +16,20 @@
         uid,
         name,
         sex,
-        create_date
+        create_date,
+        create_by,
+        update_date,
+        update_by,
+        remark
         ) values (
         #{uid},
         #{name},
         #{sex},
-        #{createDate}
+        #{createDate},
+        #{createBy},
+        #{updateDate},
+        #{updateBy},
+        #{remark}
         )
     </insert>
 
@@ -29,7 +37,9 @@
         update sys_user set
         <if test="name != null and name != ''">name = #{name},</if>
         <if test="sex != null and sex != ''">sex = #{sex},</if>
-        <if test="createDate != null and createDate != ''">create_date = #{createDate},</if>
+        <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+        <if test="remark != null and remark != ''">remark = #{remark},</if>
+        update_date = #{updateDate},
         uid = #{uid}
         where uid = #{uid}
     </update>

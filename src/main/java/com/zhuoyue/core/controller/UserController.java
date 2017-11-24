@@ -9,6 +9,8 @@ import com.zhuoyue.core.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,8 +21,8 @@ public class UserController extends BaseController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/query")
-    public DataResponse query(User entity) {
+    @PostMapping(value = "/query", consumes = "application/json")
+    public DataResponse query(@RequestBody User entity) {
         PageHelper.startPage(entity.getPageNo(), entity.getPageSize());
         List<User> users = userService.query(entity);
         PageInfo page = new PageInfo(users);
@@ -32,15 +34,32 @@ public class UserController extends BaseController {
         return dataResponse;
     }
 
-    @PostMapping("/insert")
-    public DataResponse insert(User entity) {
+    // 获取指定Id的用户
+    @GetMapping(value = "/get/{uid}", produces = "application/json")
+    public DataResponse get(@PathVariable("uid") String uid) {
+        User user = (User) userService.get(uid);
+        List<User> users = new ArrayList();
+        users.add(user);
+        DataResponse<List<User>> dataResponse = new DataResponse();
+        return dataResponse.success(users);
+    }
+
+    @PutMapping(value = "/insert", consumes = "application/json")
+    public DataResponse insert(@RequestBody @Valid User entity) {
         userService.insert(entity);
         DataResponse<List<User>> dataResponse = new DataResponse();
         return dataResponse.success();
     }
 
-    @PostMapping("/update")
-    public DataResponse update(User entity) {
+    @PutMapping(value = "/update", consumes = "application/json")
+    public DataResponse update(@RequestBody @Valid User entity) {
+        userService.update(entity);
+        DataResponse<List<User>> dataResponse = new DataResponse();
+        return dataResponse.success();
+    }
+
+    @DeleteMapping(value = "/delete", consumes = "application/json")
+    public DataResponse delete(@RequestBody @Valid User entity) {
         userService.update(entity);
         DataResponse<List<User>> dataResponse = new DataResponse();
         return dataResponse.success();

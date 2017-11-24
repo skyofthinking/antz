@@ -145,11 +145,10 @@
                             this.pageSize = response.data.pageSize;
                             this.dataList = response.data.data;
                             for (var key in response.data.data) {
-                                this.dataList.push(response.data.data[key]);
-                                // vm.$set(this.dataList, key, response.data.data[key]);
+                                this.$set(this.dataList, key, response.data.data[key]);
                             }
                             NProgress.done();
-                        }).catch(function (error) {
+                        }.bind(this)).catch(function (error) {
                             console.log(error);
                         });
 
@@ -185,14 +184,15 @@
                             NProgress.start();
                             var params_ = Object.assign({}, this.saveForm);
                             var url = params_.uid != '' ? "/user/update" : "/user/insert";
-                            console.log(params_);
-                            axios.post(baseURL + url, {params: params_})
+                            console.log(JSON.stringify(params_));
+                            axios.put(baseURL + url, JSON.stringify(params_), {headers:{'Content-Type': 'application/json'}})
                                     .then(function (response) {
-                                        console.log("===============");
+                                        console.log("===============" + response.data.code);
                                         this.saveLoading = false;
                                         this.saveFormVisible = false;
                                         NProgress.done();
-                                    }).catch(function (error) {
+                                        this.handleQuery(this.currentPage);
+                                    }.bind(this)).catch(function (error) {
                                         console.log(error);
                                     });
                         });
@@ -236,7 +236,7 @@
             },
             queryName: function () {
                 this.currentPage = 1;
-                this.handleQuery(currentPage);
+                this.handleQuery(this.currentPage);
             }
         }
     });

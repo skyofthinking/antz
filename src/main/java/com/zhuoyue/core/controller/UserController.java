@@ -21,8 +21,8 @@ public class UserController extends BaseController {
     @Autowired
     private UserService userService;
 
-    @PostMapping(value = "/query", consumes = "application/json")
-    public DataResponse query(@RequestBody User entity) {
+    @GetMapping(value = "/query")
+    public DataResponse query(User entity) {
         PageHelper.startPage(entity.getPageNo(), entity.getPageSize());
         List<User> users = userService.query(entity);
         PageInfo page = new PageInfo(users);
@@ -37,7 +37,7 @@ public class UserController extends BaseController {
     // 获取指定Id的用户
     @GetMapping(value = "/get/{uid}", produces = "application/json")
     public DataResponse get(@PathVariable("uid") String uid) {
-        User user = (User) userService.get(uid);
+        User user = userService.get(uid);
         List<User> users = new ArrayList();
         users.add(user);
         DataResponse<List<User>> dataResponse = new DataResponse();
@@ -46,21 +46,28 @@ public class UserController extends BaseController {
 
     @PutMapping(value = "/insert", consumes = "application/json")
     public DataResponse insert(@RequestBody @Valid User entity) {
-        userService.insert(entity);
+        userService.save(entity);
         DataResponse<List<User>> dataResponse = new DataResponse();
         return dataResponse.success();
     }
 
     @PutMapping(value = "/update", consumes = "application/json")
     public DataResponse update(@RequestBody @Valid User entity) {
-        userService.update(entity);
+        userService.save(entity);
         DataResponse<List<User>> dataResponse = new DataResponse();
         return dataResponse.success();
     }
 
-    @DeleteMapping(value = "/delete", consumes = "application/json")
-    public DataResponse delete(@RequestBody @Valid User entity) {
-        userService.update(entity);
+    @DeleteMapping(value = "/delete/{uid}", produces = "application/json")
+    public DataResponse delete(@PathVariable("uid") String uid) {
+        userService.delete(uid);
+        DataResponse<List<User>> dataResponse = new DataResponse();
+        return dataResponse.success();
+    }
+
+    @DeleteMapping(value = "/batchdelete/{uids}", produces = "application/json")
+    public DataResponse batchdelete(@PathVariable("uids") String uids) {
+        userService.batchdelete(uids);
         DataResponse<List<User>> dataResponse = new DataResponse();
         return dataResponse.success();
     }

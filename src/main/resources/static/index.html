@@ -163,17 +163,11 @@
                     sex: ''
                 };
             },
-            insert: function () {
-                this.saveFormVisible = false;
-            },
             // 显示编辑界面
             handleUpdate: function (index, row) {
                 this.saveForm = Object.assign({}, row);
                 this.dialogStatus = 'update';
                 this.saveFormVisible = true;
-            },
-            update: function () {
-                this.saveFormVisible = false;
             },
             // 新增或更新
             handleSave: function () {
@@ -183,7 +177,7 @@
                             this.saveLoading = true;
                             NProgress.start();
                             var params_ = Object.assign({}, this.saveForm);
-                            var url = params_.uid != '' ? "/user/update" : "/user/insert";
+                            var url = params_.uid != '' ? '/user/update' : '/user/insert';
                             console.log(JSON.stringify(params_));
                             axios.put(baseURL + url, JSON.stringify(params_), {headers:{'Content-Type': 'application/json'}})
                                     .then(function (response) {
@@ -199,12 +193,48 @@
                     }
                 });
             },
-            selsChange: function (sels) {
-                this.sels = sels;
+            handleDelete: function (index, row) {
+                this.$confirm('确认删除该记录吗?', '提示', {type: 'warning'}).then(() => {
+                    this.listLoading = true;
+                    NProgress.start();
+                    axios.delete(baseURL + '/user/delete/' + row.uid)
+                        .then(function (response) {
+                            console.log("===============" + response.data.code);
+                            this.listMsg('成功', '删除成功', 'success');
+                        }.bind(this)).catch(function (error) {
+                            console.log(error);
+                        });
+                }).catch(() => {
+                });
             },
             // 批量删除
             handleBatchDelete: function () {
-
+                var uids = this.sels.map(item => item.uid).toString();
+                this.$confirm('确认删除选中记录吗？', '提示', {type: 'warning'}).then(() => {
+                    this.listLoading = true;
+                    NProgress.start();
+                    axios.delete(baseURL + '/user/batchdelete/' + uids)
+                        .then(function (response) {
+                            console.log("===============" + response.data.code);
+                            this.listMsg('成功', '删除成功', 'success');
+                        }.bind(this)).catch(function (error) {
+                            console.log(error);
+                        });
+                }).catch(() => {
+                });
+            },
+            listMsg: function (title, message, type) {
+                this.listLoading = false;
+                NProgress.done();
+                this.$notify({
+                    title: title,
+                    message: message,
+                    type: type
+                });
+                this.handleQuery();
+            },
+            selsChange: function (sels) {
+                this.sels = sels;
             },
             formatDate: function getNowFormatDate(time) {
                 var date = new Date(time);
@@ -236,7 +266,7 @@
             },
             queryName: function () {
                 this.currentPage = 1;
-                this.handleQuery(this.currentPage);
+                this.handleQuery();
             }
         }
     });

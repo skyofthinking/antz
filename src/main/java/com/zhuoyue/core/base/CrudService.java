@@ -16,8 +16,8 @@ public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>>
     /**
      * 获取单条数据
      */
-    public T get(String id) {
-        return dao.get(id);
+    public T get(String uid) {
+        return dao.get(uid);
     }
 
     /**
@@ -32,6 +32,13 @@ public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>>
      */
     public List<T> query(T entity) {
         return dao.query(entity);
+    }
+
+    /**
+     * 查询所有数据列表
+     */
+    public List<T> all(T entity) {
+        return dao.all(entity);
     }
 
     /**
@@ -64,4 +71,27 @@ public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>>
     public void delete(T entity) {
         dao.delete(entity);
     }
+
+    /**
+     * 删除数据
+     */
+    public void delete(String uid) {
+        dao.delete(uid);
+    }
+
+    public void batchdelete(String uids) {
+        String[] uid = uids.split(",");
+        int length = uid.length;
+        for (int i = 0; i < length; i++) {
+            dao.delete(uid[i]);
+        }
+    }
+
+    /**
+     * 获取数据量
+     */
+    public int count(T entity) {
+        return dao.count(entity);
+    }
+
 }

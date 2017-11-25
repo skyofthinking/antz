@@ -40,6 +40,11 @@ public interface CrudDao<T> extends BaseDao {
     public int delete(T entity);
 
     /**
+     * 删除数据
+     */
+    public int delete(String uid);
+
+    /**
      * 获取数据量
      */
     public int count(T entity);

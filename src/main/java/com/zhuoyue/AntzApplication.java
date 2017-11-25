@@ -1,4 +1,4 @@
-package com.zhuoyue.core;
+package com.zhuoyue;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;

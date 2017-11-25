@@ -1,18 +1,17 @@
-package com.zhuoyue.core.controller;
+package com.zhuoyue.modules.sys.web;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zhuoyue.core.base.BaseController;
 import com.zhuoyue.core.base.DataResponse;
-import com.zhuoyue.core.entity.User;
-import com.zhuoyue.core.service.UserService;
+import com.zhuoyue.modules.sys.entity.User;
+import com.zhuoyue.modules.sys.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/user")

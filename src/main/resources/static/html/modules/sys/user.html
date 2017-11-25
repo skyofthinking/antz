@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ZH">
+<head>
+    <meta charset="UTF-8">
+    <title>Spring Boot + MyBatis + Vue + ElementUI</title>
+    <!-- ElementUI CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- Vue -->
+    <script src="http://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script>
+    <!-- Axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- ElementUI JS -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!-- nprogress -->
+    <script src="https://cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css"/>
+</head>
+<body>
+<div id="vm">
+    <!--工具条-->
+    <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
+        <el-form :inline="true" :model="filters">
+            <el-form-item>
+                <el-input v-model="filters.name" icon="search" placeholder="输入用户名称查询"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" v-on:click="handleQuery">查询</el-button>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="handleInsert">新增</el-button>
+            </el-form-item>
+        </el-form>
+    </el-col>
+
+    <!--列表-->
+    <el-table :data="dataList" highlight-current-row v-loading="listLoading" @selection-change="selsChange"
+              style="width: 100%;">
+        <el-table-column type="selection" width="55"></el-table-column>
+        <el-table-column type="index" width="60"></el-table-column>
+        <el-table-column prop="name" label="姓名" width="150" sortable></el-table-column>
+        <el-table-column prop="sex" label="性别" :formatter="formatSex" sortable></el-table-column>
+        <el-table-column prop="createDate.time" label="创建时间" :formatter="formatCreateDate" sortable></el-table-column>
+        <el-table-column label="操作" width="150">
+            <template scope="scope">
+                <el-button size="small" @click="handleUpdate(scope.$index, scope.row)">编辑</el-button>
+                <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            </template>
+        </el-table-column>
+    </el-table>
+
+    <!--工具条-->
+    <el-col :span="24" class="toolbar" style="padding:10px;">
+        <el-button type="danger" @click="handleBatchDelete" :disabled="this.sels.length===0">批量删除</el-button>
+        <el-pagination layout="total, prev, pager, next, jumper" @current-change="handlePage" :page-size="pageSize"
+                       :total="total"
+                       style="float:right;">
+        </el-pagination>
+    </el-col>
+
+    <!-- 保存界面 -->
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="saveFormVisible" :close-on-click-modal="false">
+        <el-form :model="saveForm" label-width="80px" :rules="saveFormRules" ref="saveForm">
+            <el-form-item label="姓名" prop="name">
+                <el-input v-model="saveForm.name" auto-complete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="性别">
+                <el-select v-model="saveForm.sex" placeholder="请选择">
+                    <el-option v-for="item in sexOptions" :key="item.key" :label="item.label" :value="item.key">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click.native="saveFormVisible = false">取消</el-button>
+            <el-button type="primary" @click.native="handleSave" :loading="saveLoading">提交</el-button>
+        </div>
+    </el-dialog>
+</div>
+</body>
+<script src="user.js"></script>
+</html>

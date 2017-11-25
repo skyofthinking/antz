@@ -1,8 +1,6 @@
-package com.zhuoyue.core.entity;
+package com.zhuoyue.modules.sys.entity;
 
 import com.zhuoyue.core.base.DataEntity;
-
-import java.util.Date;
 
 public class User extends DataEntity<User> {
     private String name;

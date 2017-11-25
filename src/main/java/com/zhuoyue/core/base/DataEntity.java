@@ -3,7 +3,9 @@ package com.zhuoyue.core.base;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zhuoyue.core.common.IdGen;
-import com.zhuoyue.core.entity.User;
+import com.zhuoyue.modules.sys.entity.User;
+import com.zhuoyue.modules.sys.utils.UserUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;
 
@@ -33,6 +35,12 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
         String uuid = IdGen.uuid();
         setUid(uuid);
 
+        User user = UserUtils.getUser();
+        if (StringUtils.isNotBlank(user.getUid())) {
+            this.updateBy = user;
+            this.createBy = user;
+        }
+
         this.updateDate = new Date();
         this.createDate = this.updateDate;
     }
@@ -42,6 +50,11 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
      */
     @Override
     public void preUpdate() {
+        User user = UserUtils.getUser();
+        if (StringUtils.isNotBlank(user.getUid())) {
+            this.updateBy = user;
+        }
+
         this.updateDate = new Date();
     }
 

@@ -7,6 +7,7 @@ import com.zhuoyue.core.base.DataResponse;
 import com.zhuoyue.modules.sys.entity.User;
 import com.zhuoyue.modules.sys.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -18,10 +19,16 @@ import java.util.List;
 public class UserController extends BaseController {
 
     @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
     private UserService userService;
 
     @GetMapping(value = "/query")
     public DataResponse query(User entity) {
+        stringRedisTemplate.opsForValue().set("hello", entity.getName());
+        System.out.println(stringRedisTemplate.opsForValue().get("hello"));
+
         PageHelper.startPage(entity.getPageNo(), entity.getPageSize());
         List<User> users = userService.query(entity);
         PageInfo page = new PageInfo(users);

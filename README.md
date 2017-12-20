@@ -15,8 +15,19 @@
 
 ## 数据库
 
-- 测试数据库 H2
-- 正式数据库 MySQL
+### 测试数据库 H2
+
+### 正式数据库 MySQL
+
+### NoSQL数据库Redis配置
+
+```
+bind 0.0.0.0
+
+requirepass 123456
+
+notify-keyspace-events "gxE"
+```
 
 # 功能
 

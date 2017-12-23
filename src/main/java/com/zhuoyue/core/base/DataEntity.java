@@ -3,8 +3,8 @@ package com.zhuoyue.core.base;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zhuoyue.core.common.IdGen;
-import com.zhuoyue.modules.sys.entity.User;
-import com.zhuoyue.modules.sys.utils.UserUtils;
+import com.zhuoyue.modules.test.entity.User;
+import com.zhuoyue.modules.test.utils.UserUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;
@@ -17,7 +17,7 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
     protected Date createDate;    // 创建日期
     protected User updateBy;    // 更新者
     protected Date updateDate;    // 更新日期
-    protected String remark;    // 备注
+    protected String remarks;    // 备注
 
     public DataEntity() {
         super();
@@ -58,12 +58,12 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
         this.updateDate = new Date();
     }
 
-    public String getRemark() {
-        return remark;
+    public String getRemarks() {
+        return remarks;
     }
 
-    public void setRemarks(String remark) {
-        this.remark = remark;
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
     }
 
     @JsonIgnore

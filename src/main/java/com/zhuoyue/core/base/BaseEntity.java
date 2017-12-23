@@ -15,6 +15,12 @@ public abstract class BaseEntity<T> implements Serializable {
 
     private String uid;
 
+    /**
+     * 锁定标记（0：固定；1：不固定；）
+     */
+    public static final int FIX_FLAG_NO = 0;
+    public static final int FIX_FLAG_YES = 1;
+
     public BaseEntity() {
     }
 

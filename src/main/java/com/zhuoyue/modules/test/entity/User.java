@@ -1,4 +1,4 @@
-package com.zhuoyue.modules.sys.entity;
+package com.zhuoyue.modules.test.entity;
 
 import com.zhuoyue.core.base.DataEntity;
 

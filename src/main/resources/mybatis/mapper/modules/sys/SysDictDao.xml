@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhuoyue.modules.sys.dao.SysDictDao">
+
+    <select id="get" resultType="SysDict">
+        select * from sys_dict where uid = #{uid}
+    </select>
+
+    <select id="all" resultType="SysDict">
+        select * from sys_dict
+    </select>
+
+    <select id="query" resultType="SysDict">
+        select * from sys_dict
+        <where>
+            <if test="label != null and label != ''">
+                and name like concat('%',#{label},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="count" resultType="Integer">
+        select count(*) from sys_dict
+    </select>
+
+    <insert id="insert">
+        insert into sys_dict (
+            uid,
+            value,
+            label,
+            type,
+            description,
+            sort,
+            parent_id,
+            fixed,
+            create_by,
+            create_date,
+            update_by,
+            update_date,
+            remarks
+        ) values (
+            #{uid},
+            #{value},
+            #{label},
+            #{type},
+            #{description},
+            #{sort},
+            #{parentId},
+            #{fixed},
+            #{createBy.id},
+            #{createDate},
+            #{updateBy.id},
+            #{updateDate},
+            #{remarks}
+        )
+    </insert>
+
+    <update id="update">
+        update sys_dict set
+            <if test="name != null and name != ''"> value = #{value}, </if>
+            <if test="name != null and name != ''"> label = #{label}, </if>
+            <if test="name != null and name != ''"> type = #{type}, </if>
+            <if test="name != null and name != ''"> description = #{description}, </if>
+            <if test="name != null and name != ''"> sort = #{sort}, </if>
+            <if test="name != null and name != ''"> parent_id = #{parentId}, </if>
+            <if test="name != null and name != ''"> fixed = #{parent_id}, </if>
+            <if test="name != null and name != ''"> update_by = #{updateBy.id}, </if>
+            <if test="name != null and name != ''"> update_date = #{updateDate}, </if>
+            <if test="name != null and name != ''"> remarks = #{remarks}, </if>
+            <if test="name != null and name != ''"> uid = #{uid} </if>
+        where uid = #{uid}
+    </update>
+
+    <!-- 删除用户和角色关联表数据 -->
+    <delete id="delete">
+        delete from sys_dict where uid = #{uid}
+    </delete>
+
+</mapper>

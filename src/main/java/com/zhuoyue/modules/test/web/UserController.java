@@ -1,11 +1,11 @@
-package com.zhuoyue.modules.sys.web;
+package com.zhuoyue.modules.test.web;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zhuoyue.core.base.BaseController;
 import com.zhuoyue.core.base.DataResponse;
-import com.zhuoyue.modules.sys.entity.User;
-import com.zhuoyue.modules.sys.service.UserService;
+import com.zhuoyue.modules.test.entity.User;
+import com.zhuoyue.modules.test.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;

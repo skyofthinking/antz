@@ -1,6 +1,6 @@
-package com.zhuoyue.modules.sys.utils;
+package com.zhuoyue.modules.test.utils;
 
-import com.zhuoyue.modules.sys.entity.User;
+import com.zhuoyue.modules.test.entity.User;
 
 public class UserUtils {
 

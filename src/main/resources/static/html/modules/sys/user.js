@@ -1,4 +1,4 @@
-const baseURL = "http://localhost:9090";
+const baseURL = "http://localhost:9090/antz";
 
 const sexOptions = [
     {key: '1', label: '男'},
@@ -32,7 +32,7 @@ var vm = new Vue({
             query: '查询',
             insert: '创建',
             update: '编辑',
-            delete: '删除',
+            delete: '删除'
         },
         saveForm: {
             uid: '',
@@ -59,7 +59,7 @@ var vm = new Vue({
                 params_['name'] = this.filters.name;
             }
             console.log(params_);
-            axios.get('/user/query', {params: params_})
+            axios.get(baseURL + '/user/query', {params: params_})
                 .then(function (response) {
                     console.log(response.data);
                     this.total = response.data.total;
@@ -169,7 +169,7 @@ var vm = new Vue({
             if (strDate >= 0 && strDate <= 9) {
                 strDate = "0" + strDate;
             }
-            var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate + " " + date.getHours() + seperator2 + date.getMinutes() + seperator2 + date.getSeconds();
+            var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate + " " + date.getUTCHours() + seperator2 + date.getMinutes() + seperator2 + date.getSeconds();
             return currentdate;
 
         },

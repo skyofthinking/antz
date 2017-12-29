@@ -39,7 +39,7 @@
         <el-table-column type="index" width="60"></el-table-column>
         <el-table-column prop="name" label="姓名" width="150" sortable></el-table-column>
         <el-table-column prop="sex" label="性别" :formatter="formatSex" sortable></el-table-column>
-        <el-table-column prop="createDate.time" label="创建时间" :formatter="formatCreateDate" sortable></el-table-column>
+        <el-table-column prop="createDate.time" label="创建时间" sortable></el-table-column>
         <el-table-column label="操作" width="150">
             <template scope="scope">
                 <el-button size="small" @click="handleUpdate(scope.$index, scope.row)">编辑</el-button>

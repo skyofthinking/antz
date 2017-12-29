@@ -18,16 +18,16 @@ import java.util.List;
 @RequestMapping(value = "/user")
 public class UserController extends BaseController {
 
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+    //@Autowired
+    //private StringRedisTemplate stringRedisTemplate;
 
     @Autowired
     private UserService userService;
 
     @GetMapping(value = "/query")
     public DataResponse query(User entity) {
-        stringRedisTemplate.opsForValue().set("hello", entity.getName());
-        System.out.println(stringRedisTemplate.opsForValue().get("hello"));
+        // stringRedisTemplate.opsForValue().set("hello", entity.getName());
+        // System.out.println(stringRedisTemplate.opsForValue().get("hello"));
 
         PageHelper.startPage(entity.getPageNo(), entity.getPageSize());
         List<User> users = userService.query(entity);
